@@ -39,6 +39,8 @@ class OpenAIEnv(BaseEnv):
         if util.to_render():
             self.u_env.render()
         logger.debug(f'Env {self.e} reset reward: {_reward}, state: {state}, done: {done}')
+        if isinstance(self.u_env.observation_space, gym.spaces.discrete.Discrete):
+            state = util.to_one_hot(state, self.u_env.observation_space.n)
         return _reward, state, done
 
     @lab_api
@@ -52,6 +54,8 @@ class OpenAIEnv(BaseEnv):
             self.u_env.render()
         self.done = done = done or self.clock.get('t') > self.max_timestep
         logger.debug(f'Env {self.e} step reward: {reward}, state: {state}, done: {done}')
+        if isinstance(self.u_env.observation_space, gym.spaces.discrete.Discrete):
+            state = util.to_one_hot(state, self.u_env.observation_space.n)
         return reward, state, done
 
     @lab_api
@@ -78,6 +82,8 @@ class OpenAIEnv(BaseEnv):
         if util.to_render():
             self.u_env.render()
         logger.debug(f'Env {self.e} reset reward_e: {_reward_e}, state_e: {state_e}, done_e: {done_e}')
+        if isinstance(self.u_env.observation_space, gym.spaces.discrete.Discrete):
+            state = util.to_one_hot(state, self.u_env.observation_space.n)
         return _reward_e, state_e, done_e
 
     @lab_api
@@ -99,4 +105,6 @@ class OpenAIEnv(BaseEnv):
             state_e[ab] = state
             done_e[ab] = done
         logger.debug(f'Env {self.e} step reward_e: {reward_e}, state_e: {state_e}, done_e: {done_e}')
+        if isinstance(self.u_env.observation_space, gym.spaces.discrete.Discrete):
+            state = util.to_one_hot(state, self.u_env.observation_space.n)
         return reward_e, state_e, done_e

@@ -1,0 +1,85 @@
+{
+  "ddqn_epsilon_greedy_frozen": {
+    "agent": [{
+      "name": "DoubleDQN",
+      "algorithm": {
+        "name": "DoubleDQN",
+        "action_pdtype": "Argmax",
+        "action_policy": "epsilon_greedy",
+        "action_policy_update": "linear_decay",
+        "explore_var_start": 1.0,
+        "explore_var_end": 0.01,
+        "explore_anneal_epi": 200,
+        "gamma": 0.99,
+        "training_batch_epoch": 10,
+        "training_epoch": 4,
+        "training_frequency": 8,
+        "training_min_timestep": 32,
+        "normalize_state": true
+      },
+      "memory": {
+        "name": "PrioritizedReplay",
+        "alpha": 2,
+        "epsilon": 0,
+        "batch_size": 32,
+        "max_size": 10000,
+        "use_cer": false
+      },
+      "net": {
+        "type": "MLPNet",
+        "hid_layers": [],
+        "hid_layers_activation": "relu",
+        "clip_grad": false,
+        "clip_grad_val": 1.0,
+        "loss_spec": {
+          "name": "MSELoss"
+        },
+        "optim_spec": {
+          "name": "Adam",
+          "lr": 0.1
+        },
+        "lr_decay": "linear_decay",
+        "lr_decay_frequency": 80000,
+        "lr_decay_min_timestep": 80000,
+        "lr_anneal_timestep": 400000,
+        "update_type": "polyak",
+        "update_frequency": 200,
+        "polyak_coef": 0,
+        "gpu": true
+      }
+    }],
+    "env": [{
+      "name": "FrozenLake-v0",
+      "max_timestep": null,
+      "max_episode": 1000,
+      "save_epi_frequency": 1000
+    }],
+    "body": {
+      "product": "outer",
+      "num": 1
+    },
+    "meta": {
+      "distributed": false,
+      "max_session": 4,
+      "max_trial": 100,
+      "search": "RandomSearch",
+      "resources": {
+        "num_cpus": 25
+      }
+    },
+    "search": {
+      "agent": [{
+        "algorithm": {
+          "explore_anneal_epi__choice": [50, 100, 150, 200]
+        },
+        "net": {
+          "update_frequency__choice": [200, 1000, 2000],
+          "hid_layers_activation__choice": ["tanh", "relu", "selu"],
+          "optim_spec": {
+            "lr__uniform": [0.00001, 0.01]
+          }
+        }
+      }]
+    }
+  }
+}

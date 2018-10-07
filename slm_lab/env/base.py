@@ -100,6 +100,8 @@ class BaseEnv(ABC):
         state_dim = observation_space.shape
         if len(state_dim) == 1:
             state_dim = state_dim[0]
+        elif isinstance(observation_space, spaces.discrete.Discrete):
+            state_dim = observation_space.n
         return {'state': state_dim}
 
     def _get_action_dim(self, action_space):
