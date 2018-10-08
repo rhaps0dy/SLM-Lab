@@ -444,7 +444,7 @@ def prepath_to_spec(prepath):
 
 def prepath_to_spec_info_space(prepath):
     '''
-    Given a prepath, read the correct spec and craete the info_space that will return the same prepath
+    Given a prepath, read the correct spec and create the info_space that will return the same prepath
     This is used for lab_mode: enjoy
     example: data/a2c_cartpole_2018_06_13_220436/a2c_cartpole_t0_s0
     '''

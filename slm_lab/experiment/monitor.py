@@ -153,7 +153,7 @@ class Body:
         spec = self.agent.spec
         info_space = self.agent.info_space
         clock = self.env.clock
-        prefix = f'{spec["name"]}_t{info_space.get("trial")}_s{info_space.get("session")}, aeb{self.aeb}, epi: {clock.get("epi")}, total_t: {clock.get("total_t")}, t: {clock.get("t")}'
+        prefix = f'{spec["name"]}_t{info_space.get("trial")}_s{info_space.get("session")}, aeb{self.aeb}, epi: {clock.get("epi")}, total_t: {clock.get("total_t")}, t: {clock.get("t")}, epsilon: {self.explore_var}'
         return prefix
 
     def log_summary(self):
